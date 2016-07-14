@@ -1,4 +1,4 @@
-PRECONDITION: BUILD THE PULL-REQUEST FROM
+PRECONDITION: BUILD THE PULL-REQUEST FROM [HERE](https://github.com/vert-x3/vertx-lang-scala/pull/8)
 
 Create a runnable fat-jar
 ```
