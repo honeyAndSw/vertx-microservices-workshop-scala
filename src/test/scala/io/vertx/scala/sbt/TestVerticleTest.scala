@@ -16,16 +16,20 @@ class TestVerticleTest extends FlatSpec with Matchers {
 
     val w = new Waiter
     vertx.deployVerticle(classOf[TestVerticle].getName, res => {
-      w { assert(res.succeeded())}
+      w { assert(res.succeeded()) }
       w.dismiss()
     })
     w.await(timeout(50 millis))
 
     val w2 = new Waiter
-    vertx.eventBus.send[String]("testAddress", "msg", (reply:AsyncResult[Message[String]]) => {
-      w2 {assert("Hello World!" == reply.result().body())}
-      w2.dismiss()
-    })
+    vertx.eventBus.send[String](
+        "testAddress",
+        "msg",
+        (reply: AsyncResult[Message[String]]) => {
+          w2 { assert("Hello World!" == reply.result().body()) }
+          w2.dismiss()
+        }
+    )
     w2.await(timeout(50 millis))
   }
 }
