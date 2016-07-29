@@ -8,6 +8,8 @@ lazy val `vertx-scala-sbt` = project
 
 libraryDependencies ++= Vector (
   Library.vertxLangScala,
+  Library.vertxWeb,
+  Library.vertxCodegen,
   Library.scalaTest       % "test"
 )
 
