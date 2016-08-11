@@ -8,7 +8,7 @@ class TestVerticle extends ScalaVerticle {
     vertx
       .eventBus()
       .consumer[String]("testAddress")
-      .handler(in => in.reply("Hello World!"))
+      .handler(_.reply("Hello World!"))
       .completionHandler(_ => startFuture.complete())
     val map = Map()
 

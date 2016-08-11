@@ -1,8 +1,8 @@
 package io.vertx.scala.sbt
 
 import io.vertx.core.AsyncResult
-import io.vertx.core.eventbus.Message
 import io.vertx.scala.core.Vertx
+import io.vertx.scala.core.eventbus.Message
 import org.scalatest._
 import org.scalatest.concurrent.AsyncAssertions._
 import org.scalatest.concurrent.AsyncAssertions.Waiter
@@ -22,14 +22,14 @@ class TestVerticleTest extends FlatSpec with Matchers {
     w.await(timeout(50 millis))
 
     val w2 = new Waiter
-    vertx.eventBus.send[String](
-        "testAddress",
-        "msg",
-        (reply: AsyncResult[Message[String]]) => {
-          w2 { assert("Hello World!" == reply.result().body()) }
-          w2.dismiss()
-        }
-    )
+    vertx
+      .eventBus()
+      .send[String]("testAddress",
+                    "msg",
+                    (reply: AsyncResult[Message[String]]) => {
+                      w2 { assert("Hello World!" == reply.result.body()) }
+                      w2.dismiss()
+                    })
     w2.await(timeout(50 millis))
   }
 }
