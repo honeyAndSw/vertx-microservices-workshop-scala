@@ -10,5 +10,7 @@ class TestVerticle extends ScalaVerticle {
       .consumer[String]("testAddress")
       .handler(in => in.reply("Hello World!"))
       .completionHandler(_ => startFuture.complete())
+    val map = Map()
+
   }
 }
