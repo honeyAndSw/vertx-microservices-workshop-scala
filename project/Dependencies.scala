@@ -8,8 +8,8 @@ object Version {
 }
 
 object Library {
-  val vertxCodegen   = "io.vertx"       %  "vertx-codegen"    % Version.VertxLangScala % "provided"
-  val vertxLangScala = "io.vertx"       %% "vertx-lang-scala" % Version.VertxLangScala
-  val vertxWeb       = "io.vertx"       %% "vertx-web-scala"  % Version.VertxLangScala
-  val scalaTest      = "org.scalatest"  %% "scalatest"        % Version.ScalaTest
+  val vertxCodegen   = "io.vertx"       %  "vertx-codegen"    % Version.VertxLangScala % "provided" changing()
+  val vertxLangScala = "io.vertx"       %% "vertx-lang-scala" % Version.VertxLangScala              changing()
+  val vertxWeb       = "io.vertx"       %% "vertx-web-scala"  % Version.VertxLangScala              changing()
+  val scalaTest      = "org.scalatest"  %% "scalatest"        % Version.ScalaTest                   changing()
 }
