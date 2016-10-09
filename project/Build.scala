@@ -14,6 +14,7 @@ object Build extends AutoPlugin {
     Vector(
       resolvers ++= Seq {
         "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository"
+        "Sonatype SNAPSHOTS" at "https://oss.sonatype.org/content/repositories/snapshots/"
       },
       packageOptions := Seq(ManifestAttributes(
         ("Main-Verticle", "io.vertx.scala.sbt.DemoVerticle"))),
