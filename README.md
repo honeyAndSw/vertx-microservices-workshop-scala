@@ -18,7 +18,7 @@ play around in sbt
 ```
 sbt
 > console
-scala> vertx.deployVerticle(classOf[DemoVerticle].getName)
+scala> vertx.deployVerticle(s"scala:${classOf[DemoVerticle].getName}")
 scala> vertx.deploymentIDs
 ```
 

@@ -1,10 +1,8 @@
-import sbtassembly.MergeStrategy
+import sbt.Package._
 
-lazy val `vertx-scala-sbt` = project
-  .in(file("."))
-    .settings(
-      mainClass in assembly := Some("io.vertx.core.Launcher")
-    )
+version := "0.1-SNAPSHOT"
+name := "vertx-scala-sbt"
+organization := "io.vertx"
 
 libraryDependencies ++= Vector (
   Library.vertxLangScala,
@@ -12,19 +10,8 @@ libraryDependencies ++= Vector (
   Library.scalaTest       % "test"
 )
 
-initialCommands := """|import io.vertx.lang.scala._
-                      |import io.vertx.scala.core._
-                      |import io.vertx.scala.sbt._
-                      |val vertx = Vertx.vertx
-                      |""".stripMargin
+packageOptions += ManifestAttributes(
+  ("Main-Verticle", "scala:io.vertx.scala.sbt.DemoVerticle"))
 
-assemblyMergeStrategy in assembly := {
-  case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
-  case PathList("META-INF", xs @ _*) => MergeStrategy.last
-  case PathList("META-INF", "io.netty.versions.properties") => MergeStrategy.last
-  case PathList("codegen.json") => MergeStrategy.discard
-  case x =>
-    val oldStrategy = (assemblyMergeStrategy in assembly).value
-    oldStrategy(x)
-}
+
 
