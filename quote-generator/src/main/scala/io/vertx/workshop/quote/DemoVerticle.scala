@@ -1,4 +1,4 @@
-package io.vertx.scala.sbt
+package io.vertx.workshop.quote
 
 import io.vertx.lang.scala.ScalaVerticle
 

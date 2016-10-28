@@ -6,6 +6,10 @@ object Version {
   final val Vertx       = "3.4.0-SNAPSHOT"
 }
 
+object Workshop {
+  val common = "io.vertx" % "vertx-workshop-common" % "0.1-SNAPSHOT"
+}
+
 object Library {
   val vertxCodegen   = "io.vertx"       %  "vertx-codegen"    % Version.Vertx     % "provided" changing()
   val vertxLangScala = "io.vertx"       %% "vertx-lang-scala" % Version.Vertx                  changing()
