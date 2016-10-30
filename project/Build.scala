@@ -8,9 +8,14 @@ object Build extends AutoPlugin {
 
   override def requires = ScalaFmtPlugin
 
+  // Triggers this auto plugin automatically
   override def trigger = allRequirements
 
+  /**
+    * See also http://www.scala-sbt.org/1.0/docs/Basic-Def-Examples.html
+    */
   override def projectSettings =
+    // Enables ScalaFmtPlugin
     ScalaFmtPlugin.autoImport.reformatOnCompileSettings ++
     Vector(
       resolvers ++= Seq {
@@ -32,7 +37,6 @@ object Build extends AutoPlugin {
       unmanagedSourceDirectories in Test := Vector(scalaSource.in(Test).value),
       initialCommands := """|import io.vertx.lang.scala._
                            |import io.vertx.scala.core._
-                           |import io.vertx.scala.sbt._
                            |import scala.concurrent.Future
                            |import scala.concurrent.Promise
                            |import scala.util.Success
