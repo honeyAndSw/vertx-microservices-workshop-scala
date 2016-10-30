@@ -5,7 +5,7 @@ import io.vertx.lang.scala.ScalaVerticle
 import io.vertx.scala.servicediscovery.{ ServiceDiscoveryOptions, ServiceDiscovery }
 
 /**
-  * Created by naheon on 2016. 10. 28..
+  * Created by honey.and.sw on 2016. 10. 28..
   */
 class MicroServiceVerticle extends ScalaVerticle {
 
