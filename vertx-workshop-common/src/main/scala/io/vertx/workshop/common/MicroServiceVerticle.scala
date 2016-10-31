@@ -20,5 +20,5 @@ class MicroServiceVerticle extends ScalaVerticle {
     * ScalaVerticle doesn't support config().
     * @return
     */
-  def config: JsonObject = ctx.config.get
+  def config: JsonObject = ctx.config().get
 }
