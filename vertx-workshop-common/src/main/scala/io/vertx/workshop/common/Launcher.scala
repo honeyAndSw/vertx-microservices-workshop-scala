@@ -11,7 +11,7 @@ import io.vertx.core.{ DeploymentOptions, VertxOptions }
   */
 class Launcher extends io.vertx.core.Launcher {
   override def beforeStartingVertx(options: VertxOptions): Unit = {
-    options.setClustered(true).setClusterHost("127.0.0.1");
+    options.setClustered(true).setClusterHost("127.0.0.1")
   }
 
   override def beforeDeployingVerticle(
@@ -24,7 +24,7 @@ class Launcher extends io.vertx.core.Launcher {
 
     }
 
-    val conf: File = new File("src/conf/config.json")
+    val conf: File = new File("classes/conf/config.json")
     deploymentOptions.getConfig().mergeIn(getConfiguration(conf))
   }
 
@@ -41,11 +41,11 @@ class Launcher extends io.vertx.core.Launcher {
         new JsonObject(json)
       } catch {
         case e: DecodeException =>
-          error(
+          sys.error(
               s"Configurationf file ${ json } does not contain a valid JSON object"
           )
         case e: FileNotFoundException =>
-          error(s"Config file not found ${ config.getAbsolutePath }")
+          sys.error(s"Config file not found ${ config.getAbsolutePath }")
       } finally {
         scanner.close()
       }

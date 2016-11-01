@@ -25,8 +25,10 @@ lazy val quote = (project in file("quote-generator")).
   dependsOn(common).
   settings(commonSettings: _*).
   settings(
-    name := "quote-generator"
+    name := "quote-generator",
+    packageOptions += {
+      val file = new java.io.File("quote-generator/src/META-INF/MANIFEST.MF")
+      val manifest = Using.fileInputStream(file)( in => new java.util.jar.Manifest(in) )
+      Package.JarManifest( manifest )
+    }
   )
-
-/* packageOptions += ManifestAttributes(
-  ("Main-Verticle", "scala:io.vertx.workshop.quote.GeneratorConfigVerticle"))*/
