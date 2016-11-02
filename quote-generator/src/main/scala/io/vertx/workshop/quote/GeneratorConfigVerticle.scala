@@ -23,8 +23,11 @@ class GeneratorConfigVerticle extends MicroServiceVerticle {
     // Deploy a MarketDataVerticle for each company listed in the configuration
     for (i <- 0 until quotes.size()) {
       val company: JsonObject = quotes.getJsonObject(i)
-      vertx.deployVerticle("scala:" + classOf[MarketDataVerticle].getName,
+      vertx.deployVerticle(s"scala:${classOf[MarketDataVerticle].getName}",
                            DeploymentOptions().setConfig(company))
     }
+
+    // Deploy another verticle without configuration.
+    vertx.deployVerticle(s"scala:${classOf[RestQuoteAPIVerticle].getName}", DeploymentOptions())
   }
 }
