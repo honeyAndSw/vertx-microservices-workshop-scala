@@ -26,7 +26,7 @@ class MicroServiceVerticle extends ScalaVerticle {
       .create(vertx, ServiceDiscoveryOptions().setBackendConfiguration(config))
   }
 
-  def publishHttpEndpoint[T](name: String, host: String, port: Int, completionHandler: (Future[T] => Unit)): Unit = {
+  def publishHttpEndpoint(name: String, host: String, port: Int, completionHandler: (Future[Record] => Unit)): Unit = {
     val record: Record = HttpEndpoint.createRecord(name, host, port, "/")
     publish(record, completionHandler)
   }
@@ -38,20 +38,21 @@ class MicroServiceVerticle extends ScalaVerticle {
     * @param completionHandler
     * @tparam T
     */
-  private def publish[T](record: Record, completionHandler: (Future[T] => Unit)): Unit = {
+  private def publish[T](record: Record,
+                         completionHandler: (Future[Record] => Unit)): Unit = {
     // Create ServiceDiscovery if not exists.
     if (discovery == null) {
       try {
         start()
       } catch {
-        case e => throw new RuntimeException("Cannot create discovery service")
+        case e: Throwable => throw new RuntimeException("Cannot create discovery service")
       }
     }
 
-    discovery.publishFuture(record).onComplete{
-      case Success(result: T) => {
+    discovery.publishFuture(record).onComplete {
+      case Success(result) => {
         registeredRecords.add(record)
-        completionHandler(Future.successful[T](result))
+        completionHandler(Future.successful(result))
       }
       case Failure(cause) => {
         completionHandler(Future.failed(cause))

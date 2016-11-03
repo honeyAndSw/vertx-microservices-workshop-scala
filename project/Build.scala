@@ -15,8 +15,8 @@ object Build extends AutoPlugin {
     * See also http://www.scala-sbt.org/1.0/docs/Basic-Def-Examples.html
     */
   override def projectSettings =
-    // Enables ScalaFmtPlugin
-    ScalaFmtPlugin.autoImport.reformatOnCompileSettings ++
+    // Disables ScalaFmtPlugin
+    // ScalaFmtPlugin.autoImport.reformatOnCompileSettings ++
     Vector(
       resolvers ++= Seq {
         "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository"

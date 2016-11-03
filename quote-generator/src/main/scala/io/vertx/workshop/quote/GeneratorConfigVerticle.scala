@@ -1,7 +1,8 @@
 package io.vertx.workshop.quote
 
-import io.vertx.core.json.{ JsonArray, JsonObject }
+import io.vertx.core.json.{JsonArray, JsonObject}
 import io.vertx.scala.core.DeploymentOptions
+import io.vertx.scala.servicediscovery.Record
 import io.vertx.workshop.common.MicroServiceVerticle
 
 /**
@@ -28,6 +29,17 @@ class GeneratorConfigVerticle extends MicroServiceVerticle {
     }
 
     // Deploy another verticle without configuration.
-    vertx.deployVerticle(s"scala:${classOf[RestQuoteAPIVerticle].getName}", DeploymentOptions())
+    vertx.deployVerticle(s"scala:${classOf[RestQuoteAPIVerticle].getName}",
+                         DeploymentOptions())
+
+    // Publish the services in the discovery infrastructure.
+    publishHttpEndpoint("quotes", "localhost", config.getInteger("http.port", 8080), future => {
+      future.onSuccess{
+        case record: Record => println(s"Quotes (Rest endpoint) service published : ${record.getName}")
+      }
+      future.onFailure{
+        case cause => println(s"future.getCause.getStackTrace")
+      }
+    })
   }
 }
