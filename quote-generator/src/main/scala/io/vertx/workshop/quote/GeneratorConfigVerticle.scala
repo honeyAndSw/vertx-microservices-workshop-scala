@@ -30,7 +30,7 @@ class GeneratorConfigVerticle extends MicroServiceVerticle {
 
     // Deploy another verticle without configuration.
     vertx.deployVerticle(s"scala:${classOf[RestQuoteAPIVerticle].getName}",
-                         DeploymentOptions())
+                         DeploymentOptions().setConfig(config))
 
     // Publish the services in the discovery infrastructure.
     publishHttpEndpoint("quotes", "localhost", config.getInteger("http.port", 8080), future => {

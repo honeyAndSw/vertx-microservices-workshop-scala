@@ -1,8 +1,11 @@
 package io.vertx.workshop.quote
 
+import io.vertx.core.json.{Json, JsonObject}
 import io.vertx.lang.scala.ScalaVerticle
-import io.vertx.scala.core.http.{HttpServerResponse, HttpServerRequest, HttpServer}
+import io.vertx.scala.core.eventbus.Message
+import io.vertx.scala.core.http.{HttpServer, HttpServerResponse}
 
+import scala.collection.immutable.HashMap
 import scala.util.{Failure, Success}
 
 /**
@@ -10,7 +13,15 @@ import scala.util.{Failure, Success}
   */
 class RestQuoteAPIVerticle extends ScalaVerticle {
 
+  private var quotes: Map[String, JsonObject] = new HashMap[String, JsonObject]()
+
   override def start(): Unit = {
+
+    vertx.eventBus().consumer[JsonObject](Constants.MarketEventAdress, (message: Message[JsonObject]) => {
+      val jsonObject = message.body()
+      quotes = quotes + ((jsonObject.getString("name"), jsonObject))
+    })
+
     val port: Int = ctx.config().get.getInteger("http.port", 8080)
 
     // Create a HTTP server that returns the quotes
@@ -20,8 +31,17 @@ class RestQuoteAPIVerticle extends ScalaVerticle {
 
         // val company: Option[String] = request.getParam("name")
         request.getParam("name") match {
-          case Some(company) => ???
-          case None => ???
+          case Some(company) => {
+            if (quotes.contains(company)) {
+              response.end(quotes(company).encodePrettily())
+            } else {
+              response.setStatusCode(404).end()
+            }
+          }
+          case None => {
+            val toJson = new JsonObject()
+            response.end(Json.encodePrettily(quotes))
+          }
         }
       })
       .listenFuture(port)

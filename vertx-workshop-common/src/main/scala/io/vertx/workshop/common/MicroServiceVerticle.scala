@@ -36,9 +36,8 @@ class MicroServiceVerticle extends ScalaVerticle {
     * https://github.com/vert-x3/vertx-lang-scala/blob/master/vertx-lang-scala-stack/vertx-service-discovery-scala/src/main/asciidoc/scala/index.adoc#publishing-services
     * @param record
     * @param completionHandler
-    * @tparam T
     */
-  private def publish[T](record: Record,
+  private def publish(record: Record,
                          completionHandler: (Future[Record] => Unit)): Unit = {
     // Create ServiceDiscovery if not exists.
     if (discovery == null) {

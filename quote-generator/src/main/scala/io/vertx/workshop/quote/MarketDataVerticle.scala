@@ -28,12 +28,14 @@ class MarketDataVerticle extends ScalaVerticle {
 
     // Every `period` ms, the given Handler is called.
     vertx.setPeriodic(marketData.period, delay => {
-      marketData = marketData.compute
-      send()
+      marketData = marketData.newData
+      send(marketData)
     })
   }
 
-  private def send(): Unit = {}
+  private def send(data: MarketData): Unit = {
+    vertx.eventBus().send(Constants.MarketEventAdress, data.toJson)
+  }
 }
 
 class MarketData(val name: String,
@@ -54,11 +56,23 @@ class MarketData(val name: String,
     this("", 0, 0l, "", 0, 0.0, 0.0, 0.0, 0, 0.0)
   }
 
+  def toJson: JsonObject = {
+    new JsonObject()
+      .put("exchange", "vert.x stock exchange")
+      .put("symbol", symbol)
+      .put("name", name)
+      .put("bid", bid)
+      .put("ask", ask)
+      .put("volume", stocks)
+      .put("open", price)
+      .put("shares", share)
+  }
+
   /**
     * Randomly compute bid, ask, share, and value
     * @return
     */
-  def compute: MarketData = {
+  def newData: MarketData = {
     val random = MarketData.random
 
     var (v: Double, a: Double, b: Double) = if (random.nextBoolean()) {
@@ -110,15 +124,9 @@ object MarketData {
     val stocks: Integer    = config.getInteger("volume", 10000)
     val price: lang.Double = config.getDouble("price", 100.0)
 
-    new MarketData(name,
-                   variation,
-                   config.getLong("period", 3000L),
-                   config.getString("symbol", name),
-                   stocks,
-                   price,
-                   price + random.nextInt(variation / 2),
-                   price + random.nextInt(variation / 2),
-                   stocks / 2,
-                   price)
+    new MarketData(name, variation, config.getLong("period", 3000L),
+      config.getString("symbol", name), stocks, price,
+      price + random.nextInt(variation / 2), price + random.nextInt(variation / 2),
+      stocks / 2, price)
   }
 }
