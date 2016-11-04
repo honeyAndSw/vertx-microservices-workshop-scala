@@ -1,7 +1,7 @@
 package io.vertx.workshop.quote
 
-import io.vertx.core.json.{Json, JsonObject}
 import io.vertx.lang.scala.ScalaVerticle
+import io.vertx.lang.scala.json.{Json, JsonObject}
 import io.vertx.scala.core.eventbus.Message
 import io.vertx.scala.core.http.{HttpServer, HttpServerResponse}
 
@@ -27,9 +27,8 @@ class RestQuoteAPIVerticle extends ScalaVerticle {
     // Create a HTTP server that returns the quotes
     vertx.createHttpServer()
       .requestHandler(request => {
-        var response: HttpServerResponse = request.response().putHeader("content-type", "application/json")
+        val response: HttpServerResponse = request.response().putHeader("content-type", "application/json")
 
-        // val company: Option[String] = request.getParam("name")
         request.getParam("name") match {
           case Some(company) => {
             if (quotes.contains(company)) {
@@ -39,8 +38,12 @@ class RestQuoteAPIVerticle extends ScalaVerticle {
             }
           }
           case None => {
-            val toJson = new JsonObject()
-            response.end(Json.encodePrettily(quotes))
+            var jsonMap = Json.emptyObj()
+            for ((k, v) <- quotes.toList) yield {
+              jsonMap = jsonMap.put(k, v)
+            }
+
+            response.end(jsonMap.encodePrettily())
           }
         }
       })

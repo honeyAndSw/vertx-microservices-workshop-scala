@@ -1,6 +1,6 @@
 package io.vertx.workshop.quote
 
-import io.vertx.core.json.{JsonArray, JsonObject}
+import io.vertx.lang.scala.json.{Json, JsonArray, JsonObject}
 import io.vertx.scala.core.DeploymentOptions
 import io.vertx.scala.servicediscovery.Record
 import io.vertx.workshop.common.MicroServiceVerticle

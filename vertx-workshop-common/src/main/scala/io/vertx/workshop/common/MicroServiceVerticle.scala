@@ -1,14 +1,13 @@
 package io.vertx.workshop.common
 
-import java.io.{ FileNotFoundException, File }
+import java.io.File
 import java.util.Scanner
 
-import io.vertx.core.AsyncResult
 import io.vertx.core.impl.ConcurrentHashSet
-import io.vertx.core.json.{ DecodeException, JsonObject }
 import io.vertx.lang.scala.ScalaVerticle
+import io.vertx.lang.scala.json.{Json, JsonObject}
 import io.vertx.scala.servicediscovery.types.HttpEndpoint
-import io.vertx.scala.servicediscovery.{Record, ServiceDiscoveryOptions, ServiceDiscovery}
+import io.vertx.scala.servicediscovery.{Record, ServiceDiscovery, ServiceDiscoveryOptions}
 
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -86,14 +85,9 @@ class MicroServiceVerticle extends ScalaVerticle {
       val conf: JsonObject = try {
         scanner = new Scanner(config).useDelimiter("\\A")
         json = scanner.next()
-        new JsonObject(json)
+        Json.fromObjectString(json)
       } catch {
-        case e: DecodeException =>
-          sys.error(
-              s"Configurationf file ${ json } does not contain a valid JSON object"
-          )
-        case e: FileNotFoundException =>
-          sys.error(s"Config file not found ${ config.getAbsolutePath }")
+        case e: Exception => sys.error(s"Cannot read configuration file")
       } finally {
         scanner.close()
       }
