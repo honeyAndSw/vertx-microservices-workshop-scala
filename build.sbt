@@ -13,6 +13,11 @@ val commonSettings = Seq(
   libraryDependencies ++= commonDependencies
 )
 
+def manifest(project: String): java.util.jar.Manifest = {
+  val file = new java.io.File(project + "/src/META-INF/MANIFEST.MF")
+  Using.fileInputStream(file)( in => new java.util.jar.Manifest(in) )
+}
+
 /* vertx-workshop-common */
 lazy val common = (project in file("vertx-workshop-common")).
   settings(commonSettings: _*).
@@ -27,8 +32,17 @@ lazy val quote = (project in file("quote-generator")).
   settings(
     name := "quote-generator",
     packageOptions += {
-      val file = new java.io.File("quote-generator/src/META-INF/MANIFEST.MF")
-      val manifest = Using.fileInputStream(file)( in => new java.util.jar.Manifest(in) )
-      Package.JarManifest( manifest )
+      Package.JarManifest(manifest("quote-generator"))
+    }
+  )
+
+/* trader-dashboard */
+lazy val dashboard = (project in file("trader-dashboard")).
+  dependsOn(common).
+  settings(commonSettings: _*).
+  settings(
+    name := "trader-dashboard",
+    packageOptions += {
+      Package.JarManifest(manifest("trader-dashboard"))
     }
   )

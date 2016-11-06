@@ -16,7 +16,6 @@ class RestQuoteAPIVerticle extends ScalaVerticle {
   private var quotes: Map[String, JsonObject] = new HashMap[String, JsonObject]()
 
   override def start(): Unit = {
-
     vertx.eventBus().consumer[JsonObject](Constants.MarketEventAdress, (message: Message[JsonObject]) => {
       val jsonObject = message.body()
       quotes = quotes + ((jsonObject.getString("name"), jsonObject))
