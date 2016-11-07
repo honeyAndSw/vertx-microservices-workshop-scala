@@ -42,6 +42,7 @@ lazy val dashboard = (project in file("trader-dashboard")).
   settings(commonSettings: _*).
   settings(
     name := "trader-dashboard",
+    libraryDependencies += Library.vertxWeb,
     packageOptions += {
       Package.JarManifest(manifest("trader-dashboard"))
     }
