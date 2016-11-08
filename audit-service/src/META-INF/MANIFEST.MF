@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: io.vertx.core.Launcher
+Main-Verticle: scala:io.vertx.workshop.quote.GeneratorConfigVerticle
+
