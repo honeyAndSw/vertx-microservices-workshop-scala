@@ -47,3 +47,15 @@ lazy val dashboard = (project in file("trader-dashboard")).
       Package.JarManifest(manifest("trader-dashboard"))
     }
   )
+
+/* audit-service */
+lazy val audit = (project in file("audit-service")).
+   dependsOn(common).
+   settings(commonSettings: _*).
+   settings(
+     name := "audit-service",
+     libraryDependencies += Library.vertxJdbcClient,
+     packageOptions += {
+       Package.JarManifest(manifest("audit-service"))
+     }
+   )
