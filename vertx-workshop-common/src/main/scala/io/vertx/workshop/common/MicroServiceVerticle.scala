@@ -22,7 +22,7 @@ class MicroServiceVerticle extends ScalaVerticle {
 
   override def start(): Unit = {
     discovery = ServiceDiscovery
-      .create(vertx, ServiceDiscoveryOptions().setBackendConfiguration(config))
+      .create(vertx, ServiceDiscoveryOptions().setBackendConfiguration(ctx.config().get))
   }
 
   def publishHttpEndpoint(name: String, host: String, port: Int, completionHandler: (Future[Record] => Unit)): Unit = {
@@ -60,9 +60,8 @@ class MicroServiceVerticle extends ScalaVerticle {
 
   /**
     * Own implementation, which ScalaVerticle doesn't support.
-    * @return
     */
-  def config: JsonObject = ctx.config().get
+  def getConfiguration: JsonObject = getConfiguration("classes/conf/config.json")
 
   def getConfiguration(name: String): JsonObject =
     getConfiguration(new File(name))
