@@ -54,7 +54,7 @@ lazy val audit = (project in file("audit-service")).
    settings(commonSettings: _*).
    settings(
      name := "audit-service",
-     libraryDependencies += Library.vertxJdbcClient,
+     libraryDependencies ++= Seq(Library.vertxJdbcClient, Library.hsqldb),
      packageOptions += {
        Package.JarManifest(manifest("audit-service"))
      }

@@ -14,5 +14,5 @@ object Library {
   val vertxServiceDiscovery = "io.vertx"      %% "vertx-service-discovery-scala" % Version.Vertx     changing()
   val vertxJdbcClient       = "io.vertx"      %% "vertx-jdbc-client-scala"       % Version.Vertx     changing()
   val scalaTest             = "org.scalatest" %% "scalatest"                     % Version.ScalaTest changing()
-  val hsqldb                = "org.hsqldb"    %% "hsqldb"                        % Version.Hsqldb
+  val hsqldb                = "org.hsqldb"    % "hsqldb"                         % Version.Hsqldb
 }

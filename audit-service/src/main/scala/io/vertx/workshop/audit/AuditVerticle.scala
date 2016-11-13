@@ -63,9 +63,9 @@ class AuditVerticle extends MicroServiceVerticle {
 
     // The database initialization is a multi-step process:
     val databaseReady: Future[Unit] = for {
-      connection <- connectionRetrieved // 1. Retrieve the connection
-      dropTable(connection, drop)       // 2. Drop the table is exist
-      createTable(connection)           // 3. Create the table
+      connection <- connectionRetrieved   // 1. Retrieve the connection
+      drop <- dropTable(connection, drop) // 2. Drop the table is exist
+      create <- createTable(connection)   // 3. Create the table
     } yield {
       if (connectionRetrieved.isCompleted) {
         connection.close()                // 4. Close the connection (in any case)
