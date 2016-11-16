@@ -18,10 +18,6 @@ object Build extends AutoPlugin {
     // Disables ScalaFmtPlugin
     // ScalaFmtPlugin.autoImport.reformatOnCompileSettings ++
     Vector(
-      resolvers ++= Seq {
-        "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository"
-        "Sonatype SNAPSHOTS" at "https://oss.sonatype.org/content/repositories/snapshots/"
-      },
       version := version.in(ThisBuild).value, 
       scalaVersion := Version.Scala,
       crossScalaVersions := Vector(scalaVersion.value),
@@ -32,7 +28,6 @@ object Build extends AutoPlugin {
         "-target:jvm-1.8",
         "-encoding", "UTF-8"
       ),
-      // mainClass := Some("io.vertx.core.Launcher"),
       unmanagedSourceDirectories in Compile := Vector(scalaSource.in(Compile).value),
       unmanagedSourceDirectories in Test := Vector(scalaSource.in(Test).value),
       initialCommands := """|import io.vertx.lang.scala._

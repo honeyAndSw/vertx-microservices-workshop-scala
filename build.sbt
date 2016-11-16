@@ -10,7 +10,9 @@ val commonDependencies = Seq(
 val commonSettings = Seq(
   version := "0.1-SNAPSHOT",
   organization := "io.vertx",
-  libraryDependencies ++= commonDependencies
+  libraryDependencies ++= commonDependencies,
+  resolvers += Resolver.mavenLocal,
+  resolvers += "Sonatype SNAPSHOTS" at "https://oss.sonatype.org/content/repositories/snapshots/"
 )
 
 def manifest(project: String): java.util.jar.Manifest = {
