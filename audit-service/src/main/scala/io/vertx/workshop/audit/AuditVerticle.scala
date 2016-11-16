@@ -5,6 +5,7 @@ import io.vertx.scala.core.eventbus.MessageConsumer
 import io.vertx.scala.core.http.HttpServer
 import io.vertx.scala.ext.jdbc.JDBCClient
 import io.vertx.scala.ext.sql.SQLConnection
+import io.vertx.scala.ext.web.{RoutingContext, Router}
 import io.vertx.workshop.common.MicroServiceVerticle
 
 import scala.concurrent.{Future, Promise}
@@ -39,7 +40,7 @@ class AuditVerticle extends MicroServiceVerticle {
 
     val ready: Future[MessageConsumer[JsonObject]] = for {
       database <- databaseReady
-      // httpEndpoint <- httpEndpointReady
+      httpEndpoint <- httpEndpointReady
       messageListener <- messageListenerReady
     } yield {
       messageListener
@@ -83,8 +84,17 @@ class AuditVerticle extends MicroServiceVerticle {
   private def createTable(connection: SQLConnection): Future[Unit] = connection.executeFuture(CREATE_TABLE_STATEMENT)
 
   private def configureTheHTTPServer(): Future[HttpServer] = {
-    val future: Future[HttpServer] = Future{null}
-    future
+    val router = Router.router(vertx)
+    router.get("/").handler(retrieveOperations)
+
+    vertx.createHttpServer()
+      .requestHandler(router.accept _)
+      .listenFuture(8080)
+      .map(server => server)
+  }
+
+  private def retrieveOperations(context: RoutingContext): Unit = {
+
   }
 
   private def retrieveThePortfolioMessageSource(): Future[MessageConsumer[JsonObject]] = {
