@@ -4,6 +4,7 @@ import io.vertx.lang.scala.ScalaVerticle
 import io.vertx.lang.scala.json.{Json, JsonObject}
 import io.vertx.scala.core.eventbus.Message
 import io.vertx.scala.core.http.{HttpServer, HttpServerResponse}
+import io.vertx.workshop.common.Constants
 
 import scala.collection.immutable.HashMap
 import scala.util.{Failure, Success}

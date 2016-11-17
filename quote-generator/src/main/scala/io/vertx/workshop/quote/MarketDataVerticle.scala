@@ -5,6 +5,7 @@ import java.util.Objects
 
 import io.vertx.lang.scala.ScalaVerticle
 import io.vertx.lang.scala.json.JsonObject
+import io.vertx.workshop.common.Constants
 
 import scala.util.Random
 

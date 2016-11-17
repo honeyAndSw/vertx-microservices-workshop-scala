@@ -1,12 +1,13 @@
 package io.vertx.workshop.audit
 
-import io.vertx.lang.scala.json.JsonObject
+import io.vertx.lang.scala.json.{Json, JsonObject}
 import io.vertx.scala.core.eventbus.MessageConsumer
 import io.vertx.scala.core.http.HttpServer
 import io.vertx.scala.ext.jdbc.JDBCClient
 import io.vertx.scala.ext.sql.SQLConnection
 import io.vertx.scala.ext.web.{RoutingContext, Router}
-import io.vertx.workshop.common.MicroServiceVerticle
+import io.vertx.scala.servicediscovery.types.MessageSource
+import io.vertx.workshop.common.{Constants, MicroServiceVerticle}
 
 import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success}
@@ -97,8 +98,6 @@ class AuditVerticle extends MicroServiceVerticle {
 
   }
 
-  private def retrieveThePortfolioMessageSource(): Future[MessageConsumer[JsonObject]] = {
-    val future: Future[MessageConsumer[JsonObject]] = Future{null}
-    future
-  }
+  private def retrieveThePortfolioMessageSource(): Future[MessageConsumer[JsonObject]] =
+    MessageSource.getConsumerFuture(discovery, Json.obj(("name", Constants.PortfolioMessageName)))
 }
