@@ -6,7 +6,7 @@ import java.util.Scanner
 import io.vertx.core.impl.ConcurrentHashSet
 import io.vertx.lang.scala.ScalaVerticle
 import io.vertx.lang.scala.json.{Json, JsonObject}
-import io.vertx.scala.servicediscovery.types.HttpEndpoint
+import io.vertx.scala.servicediscovery.types.{MessageSource, HttpEndpoint}
 import io.vertx.scala.servicediscovery.{Record, ServiceDiscovery, ServiceDiscoveryOptions}
 
 import scala.concurrent.Future
@@ -27,6 +27,11 @@ class MicroServiceVerticle extends ScalaVerticle {
 
   def publishHttpEndpoint(name: String, host: String, port: Int, completionHandler: (Future[Record] => Unit)): Unit = {
     val record: Record = HttpEndpoint.createRecord(name, host, port, "/")
+    publish(record, completionHandler)
+  }
+
+  def publishMessageSource(name: String, address: String, completionHandler: (Future[Record] => Unit)): Unit = {
+    val record: Record = MessageSource.createRecord(name, address)
     publish(record, completionHandler)
   }
 
@@ -74,7 +79,7 @@ class MicroServiceVerticle extends ScalaVerticle {
     * @param config
     * @return
     */
-  def getConfiguration(config: File): JsonObject = {
+  private def getConfiguration(config: File): JsonObject = {
     if (config.isFile()) {
       println(s"Reading config file: ${ config.getAbsolutePath }")
 

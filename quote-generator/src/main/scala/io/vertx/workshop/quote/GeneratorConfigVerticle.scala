@@ -38,7 +38,7 @@ class GeneratorConfigVerticle extends MicroServiceVerticle {
         case record: Record => println(s"Quotes (Rest endpoint) service published : ${record.getName}")
       }
       future.onFailure{
-        case cause => println(s"future.getCause.getStackTrace")
+        case cause => println(s"${cause.getStackTrace}")
       }
     })
   }

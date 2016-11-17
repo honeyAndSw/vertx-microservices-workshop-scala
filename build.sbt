@@ -61,3 +61,16 @@ lazy val audit = (project in file("audit-service")).
        Package.JarManifest(manifest("audit-service"))
      }
    )
+
+/* portfolio-service */
+lazy val portfolio = (project in file("portfolio-service")).
+  dependsOn(common).
+  settings(commonSettings: _*).
+  settings(
+    name := "portfolio-service",
+    libraryDependencies += Library.vertxServiceProxy,
+    packageOptions += {
+      Package.JarManifest(manifest("portfolio-service"))
+    },
+    compileOrder := CompileOrder.JavaThenScala
+  )
