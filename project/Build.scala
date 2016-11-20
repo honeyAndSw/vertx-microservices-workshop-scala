@@ -1,13 +1,9 @@
-import org.scalafmt.sbt.ScalaFmtPlugin
 import sbt.Keys._
 import sbt._
 import sbtassembly.AssemblyPlugin.autoImport._
 import sbtassembly.PathList
 
 object Build extends AutoPlugin {
-
-  override def requires = ScalaFmtPlugin
-
   // Triggers this auto plugin automatically
   override def trigger = allRequirements
 
@@ -15,8 +11,6 @@ object Build extends AutoPlugin {
     * See also http://www.scala-sbt.org/1.0/docs/Basic-Def-Examples.html
     */
   override def projectSettings =
-    // Disables ScalaFmtPlugin
-    // ScalaFmtPlugin.autoImport.reformatOnCompileSettings ++
     Vector(
       version := version.in(ThisBuild).value, 
       scalaVersion := Version.Scala,
@@ -47,8 +41,6 @@ object Build extends AutoPlugin {
         case x =>
           val oldStrategy = (assemblyMergeStrategy in assembly).value
           oldStrategy(x)
-      },
-
-      ScalaFmtPlugin.autoImport.scalafmtConfig := Some(baseDirectory.in(ThisBuild).value / ".scalafmt")
+      }
     )
 }
