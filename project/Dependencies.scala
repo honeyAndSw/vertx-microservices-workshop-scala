@@ -8,8 +8,7 @@ object Version {
 }
 
 object Library {
-  val vertxCodegen          = "io.vertx"      %  "vertx-codegen"                 % Version.Vertx  /*% "provided"*/ changing()
-  val vertxServiceProxy     = "io.vertx"      %  "vertx-service-proxy"           % Version.Vertx  /*% "provided"*/ changing()
+  val vertxCodegen          = "io.vertx"      %  "vertx-codegen"                 % Version.Vertx  // % "provided" changing()
   val vertxLangScala        = "io.vertx"      %% "vertx-lang-scala"              % Version.Vertx     // changing()
   val vertxWeb              = "io.vertx"      %% "vertx-web-scala"               % Version.Vertx     // changing()
   val vertxServiceDiscovery = "io.vertx"      %% "vertx-service-discovery-scala" % Version.Vertx     // changing()

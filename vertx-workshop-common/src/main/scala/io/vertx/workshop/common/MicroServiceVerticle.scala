@@ -6,7 +6,7 @@ import java.util.Scanner
 import io.vertx.core.impl.ConcurrentHashSet
 import io.vertx.lang.scala.ScalaVerticle
 import io.vertx.lang.scala.json.{Json, JsonObject}
-import io.vertx.scala.servicediscovery.types.{MessageSource, HttpEndpoint}
+import io.vertx.scala.servicediscovery.types.{EventBusService, MessageSource, HttpEndpoint}
 import io.vertx.scala.servicediscovery.{Record, ServiceDiscovery, ServiceDiscoveryOptions}
 
 import scala.concurrent.Future
@@ -32,6 +32,11 @@ class MicroServiceVerticle extends ScalaVerticle {
 
   def publishMessageSource(name: String, address: String, completionHandler: (Future[Record] => Unit)): Unit = {
     val record: Record = MessageSource.createRecord(name, address)
+    publish(record, completionHandler)
+  }
+
+  def publishEventBusService(name: String, address: String, clazz: String, metadata: JsonObject, completionHandler: (Future[Record] => Unit)): Unit = {
+    val record: Record = EventBusService.createRecord(name, address, clazz, metadata)
     publish(record, completionHandler)
   }
 

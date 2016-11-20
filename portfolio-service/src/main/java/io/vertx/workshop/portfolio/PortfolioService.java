@@ -1,7 +1,5 @@
 package io.vertx.workshop.portfolio;
 
-//import io.vertx.codegen.annotations.ProxyGen;
-//import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
@@ -14,19 +12,7 @@ import io.vertx.core.json.JsonObject;
  * <p>
  * All method are asynchronous and so ends with a {@link Handler} parameter.
  */
-//@VertxGen
-//@ProxyGen
 public interface PortfolioService {
-
-    /**
-     * The address on which the service is published.
-     */
-    String ADDRESS = "service.portfolio";
-
-    /**
-     * The address on which the successful action are sent.
-     */
-    String EVENT_ADDRESS = "portfolio";
 
     /**
      * Gets the portfolio.

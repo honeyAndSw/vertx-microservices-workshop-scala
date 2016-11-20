@@ -68,7 +68,6 @@ lazy val portfolio = (project in file("portfolio-service")).
   settings(commonSettings: _*).
   settings(
     name := "portfolio-service",
-    libraryDependencies += Library.vertxServiceProxy,
     packageOptions += {
       Package.JarManifest(manifest("portfolio-service"))
     },

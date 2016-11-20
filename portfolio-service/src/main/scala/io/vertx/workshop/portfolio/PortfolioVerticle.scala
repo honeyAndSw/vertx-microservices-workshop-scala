@@ -1,7 +1,7 @@
 package io.vertx.workshop.portfolio
 
+import io.vertx.lang.scala.json.Json
 import io.vertx.workshop.common.{Constants, MicroServiceVerticle}
-import io.vertx.serviceproxy.ProxyHelper
 import io.vertx.workshop.portfolio.impl.PortfolioServiceImpl
 
 import scala.util.{Failure, Success}
@@ -22,9 +22,17 @@ class PortfolioVerticle extends MicroServiceVerticle {
     // Register the service proxy on the event bus
     // ProxyHelper.registerService(classOf[PortfolioService], vertx.asJava, service, Constants.PortfolioAddress)
 
+    // Publish it in the discovery infrastructure
+    val metadata = Json.emptyObj()
+    publishEventBusService("portfolio", Constants.PortfolioAddress, "io.vertx.workshop.portfolio.PortfolioService", metadata, future => future.onComplete {
+      case Success(record) => println(s"portfolio published : ${record.getName}")
+      case Failure(cause) => println(s"${cause.getStackTrace}")
+    })
+
     // The portfolio event service
+    // Corresponding messages will be created at PortfolioService
     publishMessageSource("portfolio-events", Constants.PortfolioEventAddress, future => future.onComplete {
-      case Success(record) => println(s"Portfolio Events service published : ${record.getName}")
+      case Success(record) => println(s"portfolio-events published : ${record.getName}")
       case Failure(cause) => println(s"${cause.getStackTrace}")
     })
   }
