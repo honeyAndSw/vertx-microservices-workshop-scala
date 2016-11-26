@@ -22,8 +22,8 @@ object Build extends AutoPlugin {
         "-target:jvm-1.8",
         "-encoding", "UTF-8"
       ),
-      // unmanagedSourceDirectories in Compile := Vector(scalaSource.in(Compile).value),
-      // unmanagedSourceDirectories in Test := Vector(scalaSource.in(Test).value),
+      unmanagedSourceDirectories in Compile := Vector(scalaSource.in(Compile).value),
+      unmanagedSourceDirectories in Test := Vector(scalaSource.in(Test).value),
       initialCommands := """|import io.vertx.lang.scala._
                            |import io.vertx.scala.core._
                            |import scala.concurrent.Future
@@ -32,15 +32,6 @@ object Build extends AutoPlugin {
                            |import scala.util.Failure
                            |val vertx = Vertx.vertx
                            |implicit val executionContext = io.vertx.lang.scala.VertxExecutionContext(vertx.getOrCreateContext)
-                           |""".stripMargin,
-      assemblyMergeStrategy in assembly := {
-        case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
-        case PathList("META-INF", xs @ _*) => MergeStrategy.last
-        case PathList("META-INF", "io.netty.versions.properties") => MergeStrategy.last
-        case PathList("codegen.json") => MergeStrategy.discard
-        case x =>
-          val oldStrategy = (assemblyMergeStrategy in assembly).value
-          oldStrategy(x)
-      }
+                           |""".stripMargin
     )
 }

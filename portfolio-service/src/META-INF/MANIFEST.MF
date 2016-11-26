@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
 Main-Class: io.vertx.core.Launcher
-Main-Verticle: io.vertx.workshop.portfolio.PortfolioVerticle
+Main-Verticle: scala:io.vertx.workshop.portfolio.PortfolioVerticle
 

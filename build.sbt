@@ -1,5 +1,9 @@
 import sbt.Package._
 
+/**
+  * See also http://www.scala-sbt.org/1.0/docs/Basic-Def-Examples.html
+  */
+
 val commonDependencies = Seq(
   Library.vertxLangScala,
   Library.vertxCodegen,
@@ -13,7 +17,16 @@ val commonSettings = Seq(
   scalaVersion := "2.12.0",
   libraryDependencies ++= commonDependencies,
   resolvers += Resolver.mavenLocal,
-  resolvers += "Sonatype SNAPSHOTS" at "https://oss.sonatype.org/content/repositories/snapshots/"
+  resolvers += "Sonatype SNAPSHOTS" at "https://oss.sonatype.org/content/repositories/snapshots/",
+  assemblyMergeStrategy in assembly := {
+    case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
+    case PathList("META-INF", xs @ _*) => MergeStrategy.last
+    case PathList("META-INF", "io.netty.versions.properties") => MergeStrategy.last
+    case PathList("codegen.json") => MergeStrategy.discard
+    case x =>
+      val oldStrategy = (assemblyMergeStrategy in assembly).value
+      oldStrategy(x)
+  }
 )
 
 def manifest(project: String): java.util.jar.Manifest = {
