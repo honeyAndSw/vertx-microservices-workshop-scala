@@ -1,6 +1,6 @@
 package io.vertx.workshop.portfolio;
 
-//import io.vertx.codegen.annotations.DataObject;
+import io.vertx.codegen.annotations.DataObject;
 import io.vertx.core.json.JsonObject;
 
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.TreeMap;
 /**
  * Structure representing a portfolio. It stores the available cash and the owned shares.
  */
-//@DataObject(generateConverter = true)
+@DataObject(generateConverter = true)
 public class Portfolio {
 
     private Map<String, Integer> shares = new TreeMap<>();

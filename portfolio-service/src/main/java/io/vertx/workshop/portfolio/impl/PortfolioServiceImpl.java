@@ -6,7 +6,6 @@ import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.Vertx;
 import io.vertx.servicediscovery.ServiceDiscovery;
-import io.vertx.workshop.common.Constants;
 import io.vertx.workshop.portfolio.Portfolio;
 import io.vertx.workshop.portfolio.PortfolioService;
 
@@ -45,7 +44,7 @@ public class PortfolioServiceImpl implements PortfolioService {
                 .put("quote", quote)
                 .put("owned", newAmount)
                 .put("date", System.currentTimeMillis());
-        vertx.eventBus().publish(Constants.getEventAddress(), object);
+        vertx.eventBus().publish("portfolio", object);
     }
 
     @Override
