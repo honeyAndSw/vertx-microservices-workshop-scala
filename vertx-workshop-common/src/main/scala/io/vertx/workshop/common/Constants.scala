@@ -19,7 +19,7 @@ object Constants {
 
   /**
     * producer : PortfolioService
-    * consumer :
+    * consumer : audit-service, trader-dashboard
     */
   val PortfolioEventAddress: String = "portfolio"
 

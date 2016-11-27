@@ -40,7 +40,7 @@ public class Portfolio {
      */
     public Portfolio(JsonObject json) {
         // A converter is generated to easy the conversion from and to JSON.
-        //PortfolioConverter.fromJson(json, this);
+        PortfolioConverter.fromJson(json, this);
     }
 
     /**
@@ -48,7 +48,7 @@ public class Portfolio {
      */
     public JsonObject toJson() {
         JsonObject json = new JsonObject();
-        //PortfolioConverter.toJson(this, json);
+        PortfolioConverter.toJson(this, json);
         return json;
     }
 
