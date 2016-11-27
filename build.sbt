@@ -86,5 +86,7 @@ lazy val portfolio = (project in file("portfolio-service")).
     packageOptions += {
       Package.JarManifest(manifest("portfolio-service"))
     },
-    compileOrder := CompileOrder.JavaThenScala
+    compileOrder := CompileOrder.JavaThenScala,
+    // Add generated codes to Java source directory
+    unmanagedSourceDirectories in Compile += baseDirectory.value / "src" / "main" / "generated"
   )

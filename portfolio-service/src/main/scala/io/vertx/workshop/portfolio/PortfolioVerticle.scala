@@ -1,7 +1,7 @@
 package io.vertx.workshop.portfolio
 
-import io.vertx.serviceproxy.ProxyHelper
 import io.vertx.lang.scala.json.Json
+import io.vertx.serviceproxy.ProxyHelper
 import io.vertx.workshop.common.{Constants, MicroServiceVerticle}
 import io.vertx.workshop.portfolio.impl.PortfolioServiceImpl
 
@@ -14,7 +14,7 @@ import scala.util.{Failure, Success}
   */
 class PortfolioVerticle extends MicroServiceVerticle {
 
-  override def start() = {
+  override def start(): Unit = {
     super.start()
 
     // Create the service object

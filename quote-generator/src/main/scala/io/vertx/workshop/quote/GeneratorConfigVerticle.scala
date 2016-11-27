@@ -6,7 +6,7 @@ import io.vertx.scala.servicediscovery.Record
 import io.vertx.workshop.common.MicroServiceVerticle
 
 /**
-  * Created by honey.and.sw on 2016. 10. 28..
+  * Created by honey.and.sw on 2016. 10. 28.
   */
 class GeneratorConfigVerticle extends MicroServiceVerticle {
 
