@@ -1,5 +1,6 @@
 package io.vertx.workshop.portfolio
 
+import io.vertx.serviceproxy.ProxyHelper
 import io.vertx.lang.scala.json.Json
 import io.vertx.workshop.common.{Constants, MicroServiceVerticle}
 import io.vertx.workshop.portfolio.impl.PortfolioServiceImpl
@@ -20,7 +21,7 @@ class PortfolioVerticle extends MicroServiceVerticle {
     val service: PortfolioServiceImpl = new PortfolioServiceImpl(vertx.asJava, discovery.asJava, getConfiguration.getDouble("money", 10000.00))
 
     // Register the service proxy on the event bus
-    // ProxyHelper.registerService(classOf[PortfolioService], vertx.asJava, service, Constants.PortfolioAddress)
+    ProxyHelper.registerService(classOf[PortfolioService], vertx.asJava, service, Constants.PortfolioAddress)
 
     // Publish it in the discovery infrastructure
     val metadata = Json.emptyObj()

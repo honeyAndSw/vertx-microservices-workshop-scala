@@ -1,5 +1,7 @@
 package io.vertx.workshop.portfolio;
 
+import io.vertx.codegen.annotations.ProxyGen;
+import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
@@ -12,6 +14,8 @@ import io.vertx.core.json.JsonObject;
  * <p>
  * All method are asynchronous and so ends with a {@link Handler} parameter.
  */
+@VertxGen
+@ProxyGen
 public interface PortfolioService {
 
     /**
@@ -48,5 +52,4 @@ public interface PortfolioService {
      * @param resultHandler the result handler with the valuation
      */
     void evaluate(Handler<AsyncResult<Double>> resultHandler);
-
 }
