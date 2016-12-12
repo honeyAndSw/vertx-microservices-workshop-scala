@@ -1,7 +1,7 @@
 import sbt.Package._
 
 /**
-  * See also http://www.scala-sbt.org/1.0/docs/Basic-Def-Examples.html
+  * @see http://www.scala-sbt.org/1.0/docs/Basic-Def-Examples.html
   */
 
 val commonDependencies = Seq(
@@ -83,10 +83,19 @@ lazy val portfolio = (project in file("portfolio-service")).
   settings(
     name := "portfolio-service",
     libraryDependencies += Library.vertxServiceProxy,
-    packageOptions += {
-      Package.JarManifest(manifest("portfolio-service"))
-    },
     compileOrder := CompileOrder.JavaThenScala,
-    // Add generated codes to Java source directory
+    /*
+     * Add generated codes to Java source directory
+     * @see http://www.scala-sbt.org/0.13/docs/Classpaths.html
+     */
     unmanagedSourceDirectories in Compile += baseDirectory.value / "src" / "main" / "generated"
+  )
+
+/* compulsive-traders */
+lazy val traders = (project in file("compulsive-traders")).
+  dependsOn(common).
+  dependsOn(portfolio).
+  settings(commonSettings: _*).
+  settings(
+    name := "compulsive-traders"
   )
