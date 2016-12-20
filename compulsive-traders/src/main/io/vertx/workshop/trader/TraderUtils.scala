@@ -1,4 +1,4 @@
-package main.io.vertx.workshop.trader
+package io.vertx.workshop.trader
 
 import io.vertx.lang.scala.json.JsonObject
 import io.vertx.workshop.portfolio.PortfolioService

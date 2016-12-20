@@ -35,12 +35,59 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     public void buy(int amount, JsonObject quote, Handler<AsyncResult<Portfolio>> resultHandler) {
-        sendActionOnTheEventBus("BUY", 0, quote, 0);
+        if (amount <= 0) {
+            resultHandler.handle(Future.failedFuture("Cannot buy " + quote.getString("name") + " - the amount must be " +
+                    "greater than 0"));
+        }
+
+        if (quote.getInteger("shares") < amount) {
+            resultHandler.handle(Future.failedFuture("Cannot buy " + amount + " - not enough " +
+                    "stocks on the market (" + quote.getInteger("shares") + ")"));
+        }
+
+        double price = amount * quote.getDouble("ask");
+        String name = quote.getString("name");
+        // 1) do we have enough money
+        if (portfolio.getCash() >= price) {
+            // Yes, buy it
+            portfolio.setCash(portfolio.getCash() - price);
+            int current = portfolio.getAmount(name);
+            int newAmount = current + amount;
+            portfolio.getShares().put(name, newAmount);
+            sendActionOnTheEventBus("BUY", amount, quote, newAmount);
+            resultHandler.handle(Future.succeededFuture(portfolio));
+        } else {
+            resultHandler.handle(Future.failedFuture("Cannot buy " + amount + " of " + name + " - " + "not enough money, " +
+                    "need " + price + ", has " + portfolio.getCash()));
+        }
     }
 
     @Override
     public void sell(int amount, JsonObject quote, Handler<AsyncResult<Portfolio>> resultHandler) {
-        sendActionOnTheEventBus("SELL", 0, quote, 0);
+        if (amount <= 0) {
+            resultHandler.handle(Future.failedFuture("Cannot sell " + quote.getString("name") + " - the amount must be " +
+                    "greater than 0"));
+        }
+
+        double price = amount * quote.getDouble("bid");
+        String name = quote.getString("name");
+        int current = portfolio.getAmount(name);
+        // 1) do we have enough stocks
+        if (current >= amount) {
+            // Yes, sell it
+            int newAmount = current - amount;
+            if (newAmount == 0) {
+                portfolio.getShares().remove(name);
+            } else {
+                portfolio.getShares().put(name, newAmount);
+            }
+            portfolio.setCash(portfolio.getCash() + price);
+            sendActionOnTheEventBus("SELL", amount, quote, newAmount);
+            resultHandler.handle(Future.succeededFuture(portfolio));
+        } else {
+            resultHandler.handle(Future.failedFuture("Cannot sell " + amount + " of " + name + " - " + "not enough stocks " +
+                    "in portfolio"));
+        }
     }
 
     /**
