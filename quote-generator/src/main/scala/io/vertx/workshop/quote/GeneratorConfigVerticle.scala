@@ -3,7 +3,7 @@ package io.vertx.workshop.quote
 import io.vertx.lang.scala.json.{JsonArray, JsonObject}
 import io.vertx.scala.core.DeploymentOptions
 import io.vertx.scala.servicediscovery.Record
-import io.vertx.workshop.common.MicroServiceVerticle
+import io.vertx.workshop.common.{Constants, MicroServiceVerticle}
 
 /**
   * Created by honey.and.sw on 2016. 10. 28.
@@ -33,6 +33,15 @@ class GeneratorConfigVerticle extends MicroServiceVerticle {
                          DeploymentOptions().setConfig(config))
 
     // Publish the services in the discovery infrastructure.
+    publishMessageSource(Constants.MarketMessageName, Constants.MarketEventAdress, future => {
+      future.onSuccess{
+        case record: Record => println(s"Market-Data service published : : ${record.getName}")
+      }
+      future.onFailure{
+        case cause => println(s"${cause.getStackTrace}")
+      }
+    })
+
     publishHttpEndpoint("quotes", "localhost", config.getInteger("http.port", 8080), future => {
       future.onSuccess{
         case record: Record => println(s"Quotes (Rest endpoint) service published : ${record.getName}")

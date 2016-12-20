@@ -32,7 +32,7 @@ class PortfolioVerticle extends MicroServiceVerticle {
 
     // The portfolio event service
     // Corresponding messages will be created at PortfolioService
-    publishMessageSource("portfolio-events", Constants.PortfolioEventAddress, future => future.onComplete {
+    publishMessageSource(Constants.PortfolioMessageName, Constants.PortfolioEventAddress, future => future.onComplete {
       case Success(record) => println(s"portfolio-events published : ${record.getName}")
       case Failure(cause) => println(s"${cause.getStackTrace}")
     })

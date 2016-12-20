@@ -4,6 +4,8 @@ package io.vertx.workshop.common
   * Created by honey.and.sw on 2016. 11. 5.
   */
 object Constants {
+  val MarketMessageName: String = "market-data"
+
   /**
     * producer : MarketDataVerticle, which generates market data
     * consumer : RestQuoteAPIVerticle, which reads market data and provides REST API
